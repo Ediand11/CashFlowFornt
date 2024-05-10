@@ -1,0 +1,13 @@
+@use "./../../app/media.scss";
+
+.root {
+  max-width: 1200px;
+  padding: 20px 40px;
+  margin: 0 auto;
+}
+
+@include media.sm {
+  .root {
+    padding: 0 20px;
+  }
+}

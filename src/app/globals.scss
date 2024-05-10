@@ -1,0 +1,36 @@
+:root {
+  --primary-01: #ffd4d4;
+  --primary-02: #ffd0d8;
+
+  --secondary-01: #ff9292;
+  --secondary-02: #ff1569;
+  --secondary-03: #ff6060;
+
+  --grayScale-00: #757575;
+  --grayScale-01: #838383;
+  --grayScale-02: #b4b4b4;
+  --grayScale-03: #d8d8d8;
+  --grayScale-04: #f9fafc;
+  --grayScale-05: #edf0f6;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--primary-01);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
