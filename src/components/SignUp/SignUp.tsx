@@ -2,11 +2,14 @@
 
 import { signUpUser } from "@/src/api/signUp";
 import { validatorEmail, validatorPassword, validatorPasswordRepeat, validatorUsername } from "@/src/helper/validators";
-import { Box, Button, Container, CssBaseline, TextField, Typography } from "@mui/material";
+import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import style from "./SignUp.module.scss";
 
 const Login = () => {
+  const router = useRouter();
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -44,7 +47,7 @@ const Login = () => {
 
     const resp = await signUpUser(dataState);
     if (!resp.error && resp.username && resp.email) {
-      //TODO:  редирект на авторизацию
+      router.replace("/");
     } else if (resp.error) {
       setErrors((prev) => ({ ...prev, response: "Email is already taken" }));
     }
@@ -122,6 +125,11 @@ const Login = () => {
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
               Sign Up
             </Button>
+            <Grid container>
+              <Grid item>
+                <Link href={"/"}>{"Have account? Sign In!"}</Link>
+              </Grid>
+            </Grid>
           </Box>
         </div>
       </Box>

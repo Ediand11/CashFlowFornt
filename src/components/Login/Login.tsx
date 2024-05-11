@@ -6,11 +6,14 @@ import { useUserStore } from "@/src/store/user";
 import { IUser } from "@/src/types";
 import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import style from "./Login.module.scss";
 
 const Login = () => {
   const setUser = useUserStore((state) => state.setName);
+  const router = useRouter();
+
   const [errors, setErrors] = useState({
     email: "",
     password: "",
@@ -45,6 +48,7 @@ const Login = () => {
         email: resp.email,
       };
       setUser(user);
+      router.push("/main");
     } else if (resp.error) {
       setErrors((prev) => ({ ...prev, response: "User not found" }));
     }
