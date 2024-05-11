@@ -1,8 +1,7 @@
 import { AxiosResponse } from "axios";
-import { api } from ".";
+import { api } from "..";
 
-interface ISignUp {
-  username: string;
+interface ILogin {
   emailUser: string;
   passwordUser: string;
 }
@@ -14,19 +13,18 @@ export interface RespLoginSuccess {
 }
 
 export interface RespLoginError {
-  error: any;
   username?: never;
   email?: never;
+  error: any;
 }
 
-export type RespSign = RespLoginSuccess | RespLoginError;
+export type RespLogin = RespLoginSuccess | RespLoginError;
 
-export const signUpUser = async ({ username, emailUser, passwordUser }: ISignUp): Promise<RespSign> => {
+export const loginUser = async ({ emailUser, passwordUser }: ILogin): Promise<RespLogin> => {
   try {
     const response: AxiosResponse = await api.post(
-      "/users",
+      `/users/login`,
       {
-        username: username,
         email: emailUser,
         password: passwordUser,
       },

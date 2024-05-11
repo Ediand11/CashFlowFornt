@@ -1,6 +1,6 @@
 "use client";
 
-import { signUpUser } from "@/src/api/signUp";
+import { signUpUser } from "@/src/api/auth/signUp";
 import { validatorEmail, validatorPassword, validatorPasswordRepeat, validatorUsername } from "@/src/helper/validators";
 import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";

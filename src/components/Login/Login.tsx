@@ -1,6 +1,6 @@
 "use client";
 
-import { loginUser } from "@/src/api/login";
+import { loginUser } from "@/src/api/auth/login";
 import { validatorEmail, validatorPassword } from "@/src/helper/validators";
 import { useUserStore } from "@/src/store/user";
 import { IUser } from "@/src/types";

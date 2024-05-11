@@ -1,7 +1,9 @@
+import { Expenses } from "@/src/components/Expenses";
+
 export default function Home() {
   return (
     <main>
-      <h1>test</h1>
+      <Expenses />
     </main>
   );
 }

@@ -1,11 +1,9 @@
-type Id = string | number;
-
 export interface IUser {
   username: string;
   email: string;
 }
 
-enum Categories {
+export enum Categories {
   Food = "Food",
   Transportation = "Transportation",
   Housing = "Housing",
@@ -24,36 +22,10 @@ enum Categories {
   Miscellaneous = "Miscellaneous",
 }
 
-interface Transaction {
-  id: Id;
+export interface Transaction {
+  name: string;
   date: Date; //?
   price: string;
   category: Categories;
+  _id: string;
 }
-
-export interface IUserTransitions {
-  id: Id;
-  userId: Id;
-  transitions: Transaction[];
-}
-
-const mockTransactions: Transaction[] = [
-  {
-    id: 1,
-    date: new Date("2024-05-01"),
-    price: "50.00",
-    category: Categories.Food,
-  },
-  {
-    id: 2,
-    date: new Date("2024-05-02"),
-    price: "30.00",
-    category: Categories.Transportation,
-  },
-  {
-    id: 3,
-    date: new Date("2024-05-03"),
-    price: "100.00",
-    category: Categories.Entertainment,
-  },
-];
