@@ -3,20 +3,15 @@ import { IUser } from "../types";
 
 interface IUserState {
   user: IUser;
-  setName: (name: string) => void;
-  setBalance: (balance: string) => void;
+  setName: (name: IUser) => void;
 }
 
-const useUserStore = create<IUserState>()((set) => ({
+export const useUserStore = create<IUserState>()((set) => ({
   user: {
-    id: "",
-    name: "",
-    balance: "",
+    username: "",
+    email: "",
   },
-  setName: (name) => {
-    set((state) => ({ user: { ...state.user, name } }));
-  },
-  setBalance: (balance) => {
-    set((state) => ({ user: { ...state.user, balance } }));
+  setName: (userState) => {
+    set(() => ({ user: userState }));
   },
 }));

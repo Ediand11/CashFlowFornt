@@ -1,17 +1,53 @@
 "use client";
 
+import { loginUser } from "@/src/api/login";
+import { validatorEmail, validatorPassword } from "@/src/helper/validators";
+import { useUserStore } from "@/src/store/user";
+import { IUser } from "@/src/types";
 import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import Link from "next/link";
+import { useState } from "react";
 import style from "./Login.module.scss";
 
 const Login = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const setUser = useUserStore((state) => state.setName);
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+    response: "",
+  });
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
+    const dataState = {
+      emailUser: data.get("email") as string,
+      passwordUser: data.get("password") as string,
+    };
+
+    const emailVal = validatorEmail(dataState.emailUser, (email) => setErrors((prev) => ({ ...prev, email })));
+    const passVal = validatorPassword(dataState.passwordUser, (password) => setErrors((prev) => ({ ...prev, password })));
+
+    if (!passVal || !emailVal) {
+      return;
+    }
+
+    setErrors({
+      email: "",
+      password: "",
+      response: "",
     });
+
+    const resp = await loginUser(dataState);
+    if (!resp.error && resp.username && resp.email) {
+      const user: IUser = {
+        username: resp.username,
+        email: resp.email,
+      };
+      setUser(user);
+    } else if (resp.error) {
+      setErrors((prev) => ({ ...prev, response: "User not found" }));
+    }
   };
 
   return (
@@ -40,6 +76,8 @@ const Login = () => {
               name="email"
               autoComplete="email"
               autoFocus
+              error={!!errors.email || !!errors.response}
+              helperText={errors.email || errors.response}
             />
             <TextField
               color={"secondary"}
@@ -51,6 +89,8 @@ const Login = () => {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!errors.password}
+              helperText={errors.password}
             />
 
             <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>

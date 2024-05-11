@@ -1,9 +1,8 @@
 type Id = string | number;
 
 export interface IUser {
-  id: Id;
-  name: string;
-  ballance: string;
+  username: string;
+  email: string;
 }
 
 enum Categories {
