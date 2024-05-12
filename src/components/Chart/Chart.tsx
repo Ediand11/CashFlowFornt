@@ -1,6 +1,7 @@
 "use client";
 
 import { BarChart } from "@mui/x-charts";
+import style from "./Chart.module.scss";
 
 const valueFormatter = (value: number | null) => `${value ? value : 0}$`;
 
@@ -10,9 +11,8 @@ const uData = [4000, 3000, 2000, 2780, 1890, 2390, 3490];
 const Months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const Chart = () => {
   return (
-    <div>
+    <div className={style.root}>
       <BarChart
-        width={900}
         height={300}
         series={[{ data: uData, label: "spending", id: "uvId", color: "#ff9292", valueFormatter }]}
         xAxis={[{ data: Months, scaleType: "band" }]}

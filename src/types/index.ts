@@ -24,7 +24,7 @@ export enum Categories {
 
 export interface Transaction {
   name: string;
-  date: Date; //?
+  date: string; //?
   price: string;
   category: Categories;
   _id: string;

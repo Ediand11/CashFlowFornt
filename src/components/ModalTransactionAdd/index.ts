@@ -1,0 +1,1 @@
+export { default as ModalTransactionAdd } from './ModalTransactionAdd';
