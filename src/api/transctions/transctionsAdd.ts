@@ -24,7 +24,14 @@ export const transactionAdd = async (transactions: Omit<Transaction, "_id">[]): 
       { withCredentials: true }
     );
 
-    return response.data.transaction;
+    const transactionsWithFormattedDate: Transaction[] = response.data.transaction?.map((transaction: Transaction) => {
+      return {
+        ...transaction,
+        date: transaction.date.split("T")[0],
+      };
+    });
+
+    return { transaction: transactionsWithFormattedDate };
   } catch (error) {
     console.error(error);
     return { error };

@@ -1,6 +1,5 @@
 import { Transaction } from "@/src/types";
 import { AxiosResponse } from "axios";
-import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 import { api } from "..";
 
 export interface RespTransactionSuccess {
@@ -15,12 +14,9 @@ export interface RespTransactionError {
 
 export type RespTransaction = RespTransactionSuccess | RespTransactionError;
 
-export const transactionGet = async (cookies: RequestCookie | undefined): Promise<RespTransaction> => {
+export const transactionGet = async (): Promise<RespTransaction> => {
   try {
     const response: AxiosResponse<RespTransaction> = await api.get(`/user-transaction`, {
-      headers: {
-        Cookie: `${cookies?.name}=${cookies?.value}`,
-      },
       withCredentials: true,
     });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { transactionAdd } from "@/src/api/transctions/transctionsAdd";
+import { useTransactionsStore } from "@/src/store/transactionsStore";
 import { Categories } from "@/src/types";
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
@@ -36,13 +37,14 @@ const ModalTransactionAdd = () => {
   const handleClose = () => setIsOpen(false);
   const handleOpen = () => setIsOpen(true);
 
-  const [selectCategory, setSelectCategory] = useState<Categories>();
+  const [selectCategory, setSelectCategory] = useState<Categories | string>("");
   const handleChange = (event: SelectChangeEvent) => {
     setSelectCategory(event.target.value as Categories);
   };
 
   const [days, setDays] = useState<Dayjs | undefined>(dayjs());
   const handleChangeDays = (day: Dayjs | null) => setDays(dayjs(day));
+  const { transactions, setTransactions } = useTransactionsStore();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -60,9 +62,12 @@ const ModalTransactionAdd = () => {
       name: nameData as string,
       price: priceData as string,
       date: stringDate,
-      category: selectCategory,
+      category: selectCategory as Categories,
     };
-    const resp = transactionAdd([dataState]);
+    const resp = await transactionAdd([dataState]);
+    if (resp.transaction) {
+      setTransactions(resp.transaction);
+    }
     setIsOpen(false);
   };
 
@@ -78,7 +83,7 @@ const ModalTransactionAdd = () => {
             <DatePicker label="Date" sx={configDayPicker} onChange={handleChangeDays} />
           </FormControl>
 
-          <TextField color={"secondary"} margin="normal" required fullWidth name="price" label="Price" type="price" id="price" autoComplete="price" />
+          <TextField color={"secondary"} margin="normal" required fullWidth name="price" label="Price" type="number" id="price" autoComplete="price" />
 
           <FormControl margin="normal" fullWidth color={"secondary"}>
             <InputLabel id="demo-simple-select-label">Categories</InputLabel>

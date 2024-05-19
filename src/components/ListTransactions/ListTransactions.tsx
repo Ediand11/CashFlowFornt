@@ -1,14 +1,12 @@
-import { Transaction } from "@/src/types";
+"use client";
+
+import { useTransactionsStore } from "@/src/store/transactionsStore";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import { IconButton, List, ListItem, ListItemText } from "@mui/material";
-import { FC } from "react";
 import style from "./ListTransactions.module.scss";
 
-interface ListTransactionsProps {
-  transactions: Transaction[];
-}
-
-const ListTransactions: FC<ListTransactionsProps> = ({ transactions }) => {
+const ListTransactions = () => {
+  const { transactions } = useTransactionsStore();
   return (
     <div className={style.root}>
       <List sx={{ width: "100%", maxWidth: 660, bgcolor: "background.paper" }}>
@@ -23,7 +21,7 @@ const ListTransactions: FC<ListTransactionsProps> = ({ transactions }) => {
               </IconButton>
             }
           >
-            <ListItemText primary={`${item.name}, ${item.price}`} secondary={`${item.date}, ${item.category}`} />
+            <ListItemText primary={`${item.name}, ${item.price}$`} secondary={`${item.date}, ${item.category}`} />
           </ListItem>
         ))}
       </List>
