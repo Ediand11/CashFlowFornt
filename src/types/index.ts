@@ -29,3 +29,10 @@ export interface Transaction {
   category: Categories;
   _id: string;
 }
+
+export interface IIncome {
+  name: string;
+  date: string;
+  amount: string;
+  category: Categories;
+}

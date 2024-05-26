@@ -1,0 +1,17 @@
+.root {
+  margin: 14px;
+
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.header_date {
+  h1 {
+    font-size: 28px;
+    font-weight: 600;
+  }
+  h2 {
+    font-size: 18px;
+    color: var(--grayScale-02);
+  }
+}

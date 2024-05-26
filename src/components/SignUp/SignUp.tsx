@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import style from "./SignUp.module.scss";
 
-const Login = () => {
+const SignUp = () => {
   const router = useRouter();
   const [errors, setErrors] = useState({
     email: "",
@@ -20,20 +20,45 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const dataState = {
-      emailUser: data.get("email") as string,
-      username: data.get("username") as string,
-      passwordUser: data.get("password") as string,
+    const formData = new FormData(event.currentTarget);
+    const userData = {
+      email: formData.get("email") as string,
+      username: formData.get("username") as string,
+      password: formData.get("password") as string,
     };
-    const repeatPass = data.get("rep_password") as string;
+    const repeatPassword = formData.get("rep_password") as string;
 
-    const emailVal = validatorEmail(dataState.emailUser, (email) => setErrors((prev) => ({ ...prev, email })));
-    const passVal = validatorPassword(dataState.passwordUser, (password) => setErrors((prev) => ({ ...prev, password })));
-    const repeatVal = validatorPasswordRepeat(dataState.passwordUser, repeatPass, (repeatPass) => setErrors((prev) => ({ ...prev, repeatPass })));
-    const userVal = validatorUsername(dataState.username, (username) => setErrors((prev) => ({ ...prev, username })));
+    let isValid = true;
+    const errorMessages = {
+      email: "",
+      password: "",
+      repeatPass: "",
+      username: "",
+    };
 
-    if (!passVal || !emailVal || !repeatVal || !userVal) {
+    isValid =
+      validatorEmail(userData.email, (emailError) => {
+        errorMessages.email = emailError;
+      }) && isValid;
+
+    isValid =
+      validatorPassword(userData.password, (passwordError) => {
+        errorMessages.password = passwordError;
+      }) && isValid;
+
+    isValid =
+      validatorPasswordRepeat(userData.password, repeatPassword, (repeatPassError) => {
+        errorMessages.repeatPass = repeatPassError;
+      }) && isValid;
+
+    isValid =
+      validatorUsername(userData.username, (usernameError) => {
+        errorMessages.username = usernameError;
+      }) && isValid;
+
+    setErrors((prev) => ({ ...prev, ...errorMessages }));
+
+    if (!isValid) {
       return;
     }
 
@@ -45,10 +70,15 @@ const Login = () => {
       response: "",
     });
 
-    const resp = await signUpUser(dataState);
-    if (!resp.error && resp.username && resp.email) {
+    const response = await signUpUser({
+      emailUser: userData.email,
+      username: userData.username,
+      passwordUser: userData.password,
+    });
+
+    if (!response.error && response.username && response.email) {
       router.replace("/");
-    } else if (resp.error) {
+    } else if (response.error) {
       setErrors((prev) => ({ ...prev, response: "Email is already taken" }));
     }
   };
@@ -66,7 +96,7 @@ const Login = () => {
       >
         <div className={style.root}>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
@@ -90,7 +120,7 @@ const Login = () => {
               id="username"
               label="Username"
               name="username"
-              autoComplete="Username"
+              autoComplete="username"
               autoFocus
               error={!!errors.username}
               helperText={errors.username}
@@ -114,7 +144,7 @@ const Login = () => {
               required
               fullWidth
               name="rep_password"
-              label="Repeat password"
+              label="Repeat Password"
               type="password"
               id="passwordRepeat"
               autoComplete="current-password"
@@ -127,7 +157,7 @@ const Login = () => {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href={"/"}>{"Have account? Sign In!"}</Link>
+                <Link href={"/"}>{"Already have an account? Sign In!"}</Link>
               </Grid>
             </Grid>
           </Box>
@@ -137,4 +167,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

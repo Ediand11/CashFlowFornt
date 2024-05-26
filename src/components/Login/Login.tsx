@@ -22,16 +22,14 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const dataState = {
-      emailUser: data.get("email") as string,
-      passwordUser: data.get("password") as string,
-    };
+    const formData = new FormData(event.currentTarget);
+    const emailUser = formData.get("email") as string;
+    const passwordUser = formData.get("password") as string;
 
-    const emailVal = validatorEmail(dataState.emailUser, (email) => setErrors((prev) => ({ ...prev, email })));
-    const passVal = validatorPassword(dataState.passwordUser, (password) => setErrors((prev) => ({ ...prev, password })));
+    const isEmailValid = validatorEmail(emailUser, (emailError) => setErrors((prev) => ({ ...prev, email: emailError })));
+    const isPasswordValid = validatorPassword(passwordUser, (passwordError) => setErrors((prev) => ({ ...prev, password: passwordError })));
 
-    if (!passVal || !emailVal) {
+    if (!isEmailValid || !isPasswordValid) {
       return;
     }
 
@@ -41,15 +39,15 @@ const Login = () => {
       response: "",
     });
 
-    const resp = await loginUser(dataState);
-    if (!resp.error && resp.username && resp.email) {
+    const response = await loginUser({ emailUser, passwordUser });
+    if (!response.error && response.username && response.email) {
       const user: IUser = {
-        username: resp.username,
-        email: resp.email,
+        username: response.username,
+        email: response.email,
       };
       setUser(user);
       router.push("/main");
-    } else if (resp.error) {
+    } else if (response.error) {
       setErrors((prev) => ({ ...prev, response: "User not found" }));
     }
   };

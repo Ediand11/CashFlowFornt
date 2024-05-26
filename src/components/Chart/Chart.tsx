@@ -1,9 +1,9 @@
 "use client";
 
-import { transactionGet } from "@/src/api/transctions/transctionsGet";
+import { transactionGet } from "@/src/api/transaction/transactionGet";
 import { useTransactionsStore } from "@/src/store/transactionsStore";
 import { BarChart } from "@mui/x-charts";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import style from "./Chart.module.scss";
 
 const valueFormatter = (value: number | null) => `${value ? value : 0}$`;
@@ -11,14 +11,14 @@ const Months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug"
 
 const Chart = () => {
   const { transactions, setTransactions } = useTransactionsStore();
-  const [monthlySums, setMonthlySums] = useState<number[]>([]);
+  const [monthlySums, setMonthlySums] = useState<number[]>(Array(12).fill(0));
 
   useEffect(() => {
     const fetchTransactions = async () => {
       try {
-        const resp = await transactionGet();
-        if (resp.transaction) {
-          setTransactions(resp.transaction);
+        const { transaction } = await transactionGet();
+        if (transaction) {
+          setTransactions(transaction);
         }
       } catch (error) {
         console.error("Error fetching transactions:", error);
@@ -28,19 +28,20 @@ const Chart = () => {
     fetchTransactions();
   }, [setTransactions]);
 
-  useEffect(() => {
-    const calculateMonthlySums = () => {
-      const sums = new Array(12).fill(0);
-      transactions.forEach((transaction) => {
-        const date = new Date(transaction.date);
-        const month = date.getMonth();
-        sums[month] += parseFloat(transaction.price);
-      });
-      setMonthlySums(sums);
-    };
+  const calculateMonthlySums = useCallback(() => {
+    const sums = Array(12).fill(0);
+    transactions.forEach(({ date, price }) => {
+      const month = new Date(date).getMonth();
+      sums[month] += parseFloat(price);
+    });
+    setMonthlySums(sums);
+  }, [transactions, setMonthlySums]);
 
-    calculateMonthlySums();
-  }, [transactions]);
+  useEffect(() => {
+    if (transactions.length) {
+      calculateMonthlySums();
+    }
+  }, [transactions, calculateMonthlySums]);
 
   return (
     <div className={style.root}>
