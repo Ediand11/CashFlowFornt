@@ -7,9 +7,9 @@ interface RespIncome {
   error?: any;
 }
 
-export const incomeAdd = async (incomes: Omit<IIncome, "_id">[]): Promise<RespIncome> => {
+export const incomeAdd = async (income: Omit<IIncome, "_id">[]): Promise<RespIncome> => {
   try {
-    const response: AxiosResponse<{ income: IIncome[] }> = await api.post<{ income: IIncome[] }>(`/income`, { incomes }, { withCredentials: true });
+    const response: AxiosResponse<{ income: IIncome[] }> = await api.post<{ income: IIncome[] }>(`/income`, { income }, { withCredentials: true });
 
     const incomesWithFormattedDate = response.data.income.map((income) => ({
       ...income,

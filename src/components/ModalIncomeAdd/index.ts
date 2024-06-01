@@ -1,0 +1,1 @@
+export { default as ModalIncomeAdd } from './ModalIncomeAdd';

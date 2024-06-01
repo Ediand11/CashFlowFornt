@@ -1,4 +1,4 @@
-import { Chart } from "../Chart";
+import { ChartExpenses } from "../ChartExpenses";
 import { Container } from "../Container";
 import { ListTransactions } from "../ListTransactions";
 import { ModalTransactionAdd } from "../ModalTransactionAdd";
@@ -10,9 +10,8 @@ const Expenses = () => {
       <Container>
         <div className={style.header_date}>
           <h1>Expenses</h1>
-          <h2>Must be Date</h2>
         </div>
-        <Chart />
+        <ChartExpenses />
         <ModalTransactionAdd />
         <ListTransactions />
       </Container>

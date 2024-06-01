@@ -1,17 +1,20 @@
 "use client";
 
+import { incomeGet } from "@/src/api/income/incomeGet";
 import { transactionGet } from "@/src/api/transaction/transactionGet";
 import { useTransactionsStore } from "@/src/store/transactionsStore";
 import { BarChart } from "@mui/x-charts";
 import { useCallback, useEffect, useState } from "react";
-import style from "./Chart.module.scss";
+import style from "./ChartExpenses.module.scss";
 
 const valueFormatter = (value: number | null) => `${value ? value : 0}$`;
 const Months: string[] = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-const Chart = () => {
+const ChartExpenses = () => {
   const { transactions, setTransactions } = useTransactionsStore();
   const [monthlySums, setMonthlySums] = useState<number[]>(Array(12).fill(0));
+
+  incomeGet();
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -54,4 +57,4 @@ const Chart = () => {
   );
 };
 
-export default Chart;
+export default ChartExpenses;
