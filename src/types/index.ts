@@ -22,6 +22,13 @@ export enum Categories {
   Miscellaneous = "Miscellaneous",
 }
 
+export enum IncomeCategories {
+  Salary = "Salary",
+  BusinessIncome = "Business Income",
+  PassiveIncome = "Passive Income (dividends, interest)",
+  SocialBenefits = "Social Benefits (pensions, allowances)",
+}
+
 export interface Transaction {
   name: string;
   date: string; //?
@@ -34,5 +41,5 @@ export interface IIncome {
   name: string;
   date: string;
   amount: string;
-  category: Categories;
+  category: IncomeCategories;
 }

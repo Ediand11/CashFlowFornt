@@ -2,7 +2,7 @@
 
 import { incomeAdd } from "@/src/api/income/incomeAdd";
 import { useIncomesStore } from "@/src/store/incomeStore";
-import { Categories } from "@/src/types";
+import { IncomeCategories } from "@/src/types";
 import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
@@ -31,13 +31,13 @@ const datePickerStyle = {
 
 const ModalIncomeAdd = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Categories | string>("");
+  const [selectedCategory, setSelectedCategory] = useState<IncomeCategories | string>("");
   const [selectedDate, setSelectedDate] = useState<Dayjs | undefined>(dayjs());
   const setIncomes = useIncomesStore((state) => state.setIncomes);
 
   const toggleModal = () => setIsOpen(!isOpen);
   const handleCategoryChange = (event: SelectChangeEvent) => {
-    setSelectedCategory(event.target.value as Categories);
+    setSelectedCategory(event.target.value as IncomeCategories);
   };
   const handleDateChange = (day: Dayjs | null) => setSelectedDate(dayjs(day));
 
@@ -56,7 +56,7 @@ const ModalIncomeAdd = () => {
       name,
       amount,
       date,
-      category: selectedCategory as Categories,
+      category: selectedCategory as IncomeCategories,
     };
 
     try {
@@ -85,7 +85,7 @@ const ModalIncomeAdd = () => {
           <FormControl margin="normal" fullWidth color={"secondary"}>
             <InputLabel id="category-select-label">Categories</InputLabel>
             <Select labelId="category-select-label" id="category-select" value={selectedCategory} label="Categories" onChange={handleCategoryChange}>
-              {Object.values(Categories).map((category) => (
+              {Object.values(IncomeCategories).map((category) => (
                 <MenuItem key={category} value={category}>
                   {category}
                 </MenuItem>
