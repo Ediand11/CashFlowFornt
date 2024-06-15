@@ -3,7 +3,17 @@
 import { incomeAdd } from "@/src/api/income/incomeAdd";
 import { useIncomesStore } from "@/src/store/incomeStore";
 import { IncomeCategories } from "@/src/types";
-import { Box, Button, FormControl, InputLabel, MenuItem, Modal, Select, SelectChangeEvent, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Modal,
+  Select,
+  SelectChangeEvent,
+  TextField,
+} from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
@@ -75,16 +85,51 @@ const ModalIncomeAdd = () => {
       <Button onClick={toggleModal} fullWidth color={"secondary"}>
         Add Income
       </Button>
-      <Modal open={isOpen} onClose={toggleModal} aria-labelledby="parent-modal-title" aria-describedby="parent-modal-description">
-        <Box component={"form"} onSubmit={handleSubmit} noValidate sx={{ ...modalStyle, width: 400 }}>
-          <TextField color={"secondary"} margin="normal" required fullWidth id="name" label="Name" name="name" autoFocus />
+      <Modal
+        open={isOpen}
+        onClose={toggleModal}
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box
+          component={"form"}
+          onSubmit={handleSubmit}
+          noValidate
+          sx={{ ...modalStyle, width: 400 }}
+        >
+          <TextField
+            color={"secondary"}
+            margin="normal"
+            required
+            fullWidth
+            id="name"
+            label="Name"
+            name="name"
+            autoFocus
+          />
           <FormControl margin="normal" fullWidth color={"secondary"}>
             <DatePicker label="Date" sx={datePickerStyle} onChange={handleDateChange} />
           </FormControl>
-          <TextField color={"secondary"} margin="normal" required fullWidth name="amount" label="Amount" type="number" id="amount" autoComplete="amount" />
+          <TextField
+            color={"secondary"}
+            margin="normal"
+            required
+            fullWidth
+            name="amount"
+            label="Amount"
+            type="number"
+            id="amount"
+            autoComplete="amount"
+          />
           <FormControl margin="normal" fullWidth color={"secondary"}>
             <InputLabel id="category-select-label">Categories</InputLabel>
-            <Select labelId="category-select-label" id="category-select" value={selectedCategory} label="Categories" onChange={handleCategoryChange}>
+            <Select
+              labelId="category-select-label"
+              id="category-select"
+              value={selectedCategory}
+              label="Categories"
+              onChange={handleCategoryChange}
+            >
               {Object.values(IncomeCategories).map((category) => (
                 <MenuItem key={category} value={category}>
                   {category}
